@@ -12,6 +12,8 @@ public class MoverImagem : MonoBehaviour
 
         // Mover o sprite na direção horizontal
         transform.Translate(Vector3.right * movimentoHorizontal * velocidade * Time.deltaTime);
+		
+	    // NOOB
     }
 }
 
