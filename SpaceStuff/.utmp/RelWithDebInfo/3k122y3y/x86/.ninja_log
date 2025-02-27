@@ -1,0 +1,12 @@
+# ninja log v5
+64	232	7623745227361849	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	810193876097a06d
+233	773	7623745230379945	S:/Projects/GitClone/SpaceCiv/SpaceStuff/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3k122y3y/obj/x86/libswappywrapper.so	ab44a5f3fda6a308
+10	1555	7623745240207494	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	62540665b0fef453
+13	1581	7623745240347113	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	7e088e8534a193f5
+20	1635	7623745241145581	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	15f72cea5779e0dd
+4	1671	7623745241614309	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	940ef770d63477ca
+25	1770	7623745242577147	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	9e2607212afb56c0
+0	1918	7623745244162685	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	1120e68fa4d088c5
+16	2057	7623745245535057	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	197cdbcaf3df7d5
+6	2143	7623745246396987	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	7f2e96ac3cf03425
+2143	2278	7623745247805276	S:/Projects/GitClone/SpaceCiv/SpaceStuff/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3k122y3y/obj/x86/libgame.so	9c0319cdeccc26fb
