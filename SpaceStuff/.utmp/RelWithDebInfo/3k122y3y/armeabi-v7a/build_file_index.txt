@@ -1,0 +1,3 @@
+S:\Projects\GitClone\SpaceCiv\SpaceStuff\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+S:\Projects\GitClone\SpaceCiv\SpaceStuff\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\CMakeLists.txt
+S:\Projects\GitClone\SpaceCiv\SpaceStuff\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt
