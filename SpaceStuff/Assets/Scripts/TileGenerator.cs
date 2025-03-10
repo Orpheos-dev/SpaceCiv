@@ -24,42 +24,28 @@ public class TileGenerator : MonoBehaviour
     }
 
     void GenerateMap()
-    {
-        // Initialize the tile array and state array
-        tiles = new GameObject[gridWidth, gridHeight];
-        tileStates = new TileState[gridWidth, gridHeight];
-
-        // Loop through each position in the grid
-        for (int x = 0; x < gridWidth; x++)
-        {
-            for (int y = 0; y < gridHeight; y++)
-            {
-                // Calculate the position for each tile in world space
-                Vector3 tilePosition = new Vector3(x * tileSize, y * tileSize, 0f);
-
-                // Instantiate the tile prefab at the calculated position
-                GameObject tile = Instantiate(tilePrefab, tilePosition, Quaternion.identity);
-
-                // Parent the tile to this GameObject (Map)
-                tile.transform.parent = transform;
-
-                // Optionally give the tile a name for debugging purposes
-                tile.name = "Tile_" + x + "_" + y;
-
-                // Store the tile reference in the array
-                tiles[x, y] = tile;
-
-                // Set the initial state of the tile (unexplored by default)
-                tileStates[x, y] = TileState.Unexplored;
-
-                // Change the color or material of the tile based on its state
-                UpdateTileVisualState(x, y);
-            }
-        }
-
-        // Optionally adjust the position of the entire grid if needed
-        transform.position = new Vector3(-gridWidth * tileSize / 2, -gridHeight * tileSize / 2, 0f);
-    }
+	{
+		tiles = new GameObject[gridWidth, gridHeight];
+		tileStates = new TileState[gridWidth, gridHeight];
+	
+		for (int x = 0; x < gridWidth; x++)
+		{
+			for (int y = 0; y < gridHeight; y++)
+			{
+				// Offset tiles based on TileGenerator's position
+				Vector3 tilePosition = transform.position + new Vector3(x * tileSize, y * tileSize, 0f);
+	
+				GameObject tile = Instantiate(tilePrefab, tilePosition, Quaternion.identity, transform); // Parent to TileGenerator
+	
+				tile.name = "Tile_" + x + "_" + y;
+				tiles[x, y] = tile;
+				tileStates[x, y] = TileState.Unexplored;
+	
+				UpdateTileVisualState(x, y);
+			}
+		}
+	}
+	
 
     // Update the tile's visual state (color or other visual feedback)
     public void UpdateTileVisualState(int x, int y)
