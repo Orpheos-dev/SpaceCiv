@@ -58,7 +58,14 @@ public class RodCasting : MonoBehaviour
                 {
                     Vector3 localDir = rod.InverseTransformDirection(castDirection.normalized);
                     Vector3 targetLocalPosition = localDir * castDistance;
-                    previewCircle.localPosition = targetLocalPosition;
+
+                    // Force to water level
+                    targetLocalPosition.y = 0f;
+
+                    Vector3 worldTarget = rod.position + castDirection.normalized * castDistance;
+					worldTarget.y = 0f; // Ensure it's at water level
+					previewCircle.position = worldTarget;
+
                     Debug.Log("Preview updated at local: " + targetLocalPosition);
                 }
             }
@@ -69,7 +76,14 @@ public class RodCasting : MonoBehaviour
                 Vector3 localDir = rod.InverseTransformDirection(castDirection.normalized);
                 Vector3 targetLocalPosition = localDir * castDistance;
 
-                StartCoroutine(CastHook(targetLocalPosition));
+                // Force to water level
+                targetLocalPosition.y = 0f;
+
+                Vector3 worldTarget = rod.position + castDirection.normalized * castDistance;
+				worldTarget.y = 0f; // Force to water level
+
+				StartCoroutine(CastHook(worldTarget));
+
                 isCastingMode = false;
                 hasCast = true;
                 previewCircle.gameObject.SetActive(false);
@@ -78,31 +92,30 @@ public class RodCasting : MonoBehaviour
         }
     }
 
-    IEnumerator CastHook(Vector3 target)
-    {
-        Vector3 start = hook.localPosition;
-        float t = 0f;
-
-        while (t < 1f)
-        {
-            t += Time.deltaTime * castSpeed;
-            hook.localPosition = Vector3.Lerp(start, target, t);
-            yield return null;
-        }
-
-        hook.localPosition = target;
+	IEnumerator CastHook(Vector3 target)
+	{
+		Vector3 start = hook.position;
+		float t = 0f;
+	
+		while (t < 1f)
+		{
+			t += Time.deltaTime * castSpeed;
+			hook.position = Vector3.Lerp(start, target, t);
+			yield return null;
+		}
+	
+		hook.position = target;
+	
 		hook.GetComponent<Rod_Hook>()?.StartBobbing();
-        Debug.Log("Hook landed at: " + target);
-		
-		
-    }
+		Debug.Log("Hook landed at: " + target);
+	}
 
     IEnumerator ReturnHook()
     {
         isReturning = true;
 
         Vector3 start = hook.localPosition;
-		hook.GetComponent<Rod_Hook>()?.StopBobbing();
+        hook.GetComponent<Rod_Hook>()?.StopBobbing();
         Vector3 target = originalHookPosition;
         float t = 0f;
 
@@ -114,8 +127,8 @@ public class RodCasting : MonoBehaviour
         }
 
         hook.localPosition = target;
-        hasCast = false;     // ✅ Only reset here
-        isReturning = false; // ✅ Allow recast
+        hasCast = false;
+        isReturning = false;
         Debug.Log("Hook returned to original position");
     }
 }
