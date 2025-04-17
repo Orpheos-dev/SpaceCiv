@@ -3,22 +3,29 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class Rod_line : MonoBehaviour
 {
-    public Transform rodTip; // Empty GameObject at the tip of your rod
-    public Transform hook;   // Your hook object in the scene
+    [Header("References")]
+    public Transform rodTip; // Tip of the rod (world position)
+    public Transform hook;   // The hook object (can be moving)
 
     private LineRenderer lineRenderer;
 
-    void Start()
+    void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = 2; // Start and end of the line
+
+        // Set up basic line properties (optional)
+        lineRenderer.positionCount = 2;
+        lineRenderer.startWidth = 0.03f;
+        lineRenderer.endWidth = 0.03f;
+        lineRenderer.useWorldSpace = true; // Important when objects are moving in world
     }
 
-    void Update()
+    void LateUpdate()
     {
-        if (rodTip == null || hook == null) return;
+        if (!rodTip || !hook)
+            return;
 
-        // Update line positions every frame
+        // Update the line positions every frame
         lineRenderer.SetPosition(0, rodTip.position); // Start at rod tip
         lineRenderer.SetPosition(1, hook.position);   // End at hook
     }
