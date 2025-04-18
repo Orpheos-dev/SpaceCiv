@@ -26,7 +26,7 @@ public class RodCasting : MonoBehaviour
     void Update()
     {
         // First E = cast mode, Second E = return hook
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && InventoryManager.Instance.IsRodEquipped())
         {
             if (hasCast && !isReturning)
             {
