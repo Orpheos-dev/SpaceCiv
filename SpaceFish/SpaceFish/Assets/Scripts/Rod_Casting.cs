@@ -14,6 +14,9 @@ public class RodCasting : MonoBehaviour
     private bool isReturning = false;
     private Vector3 castDirection = Vector3.zero;
     private Vector3 originalHookPosition;
+	
+	public GameObject splashEffect; // assign in Inspector
+
 
     void Start()
     {
@@ -106,9 +109,17 @@ public class RodCasting : MonoBehaviour
 	
 		hook.position = target;
 	
+		// 💦 Splash effect with auto-destroy
+		if (splashEffect != null)
+		{
+			GameObject splash = Instantiate(splashEffect, target, Quaternion.identity);
+			Destroy(splash, 0.5f); // destroy after 2 seconds
+		}
+	
 		hook.GetComponent<Rod_Hook>()?.StartBobbing();
 		Debug.Log("Hook landed at: " + target);
 	}
+	
 
     IEnumerator ReturnHook()
     {
