@@ -7,6 +7,32 @@ public class InventoryManager : MonoBehaviour
     [Header("Inventory Status")]
     public bool rodEquipped = false;
 
+    [Header("UI Sprites")]
+    public Sprite rodIconSprite; // Assign this in the Inspector
+	
+	[Header("Inventory Collected Items")]
+	public bool haveRod = false;
+	
+	[Header("UI References")]
+    public GameObject buttonToShowOnRodPickup; // Drag the UI button in Inspecto
+	
+	public void CollectRod()
+	{
+		haveRod = true;
+		Debug.Log("✅ Rod collected and added to inventory!");
+		
+		// Show the button when rod is picked up
+        if (buttonToShowOnRodPickup != null)
+        {
+            buttonToShowOnRodPickup.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("No UI button assigned for rod pickup.");
+        }
+	}
+	
+
     private void Awake()
     {
         // Singleton setup
@@ -39,12 +65,14 @@ public class InventoryManager : MonoBehaviour
     public void EquipRod()
     {
         rodEquipped = true;
+        UIManager.Instance.UpdateEquippedItem(rodIconSprite);
         Debug.Log("🎣 Rod equipped!");
     }
 
     public void UnequipRod()
     {
         rodEquipped = false;
+        UIManager.Instance.UpdateEquippedItem(null);
         Debug.Log("❌ Rod unequipped!");
     }
 
