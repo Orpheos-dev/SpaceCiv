@@ -12,9 +12,17 @@ public class InventoryManager : MonoBehaviour
 	
 	[Header("Inventory Collected Items")]
 	public bool haveRod = false;
+	public bool haveBoat = false;
 	
 	[Header("UI References")]
     public GameObject buttonToShowOnRodPickup; // Drag the UI button in Inspecto
+	
+	public void CollectBoat()
+	{
+		haveBoat = true;
+		Debug.Log("✅ Boat collected and added to inventory!");
+	}
+	
 	
 	public void CollectRod()
 	{
