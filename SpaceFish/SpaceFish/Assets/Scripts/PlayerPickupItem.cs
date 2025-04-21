@@ -71,11 +71,11 @@ public class PickupItem : MonoBehaviour
         }
         else
         {
-            // If the player moves out of range, hide the message box
-            if (TipsManager != null && TipsManager.messageBox.activeSelf)
-            {
-                TipsManager.messageBox.SetActive(false);
-            }
+			// Only hide if the message was the rod tip
+			if (TipsManager.rodMessage01 && TipsManager.messageText.text == "Message 01: Rod picked up!")
+			{
+				TipsManager.HideTip();
+			}
         }
     }
 
