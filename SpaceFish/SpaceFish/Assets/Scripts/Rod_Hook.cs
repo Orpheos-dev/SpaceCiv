@@ -10,9 +10,9 @@ public class Rod_Hook : MonoBehaviour
     private bool isBobbing = false;
     private Coroutine fishRoutine;
 
-    public FishManager fishManager; // Assign this in Inspector or via script
-    public MinigameManager MinigameManager; // Assign this in Inspector or via script
-	
+    public FishManager fishManager;
+    public MinigameManager MinigameManager;
+
     public void StartBobbing()
     {
         startPos = transform.position;
@@ -58,18 +58,35 @@ public class Rod_Hook : MonoBehaviour
 
                 if (success)
                 {
-                    Debug.Log("🎣 A fish was successfully spawned!");
-					MinigameManager.StartMinigame(OnFishCaught);
-                    yield break; // 🛑 Stop trying if fish was caught
+                    Debug.Log("🎣 A fish was successfully 'hooked', starting minigame.");
+                    StopBobbing();
+                    MinigameManager.StartMinigame(OnFishCaught, OnFishFailed);
+                    yield break;
                 }
             }
         }
     }
+
+    void OnFishCaught()
+    {
+        Debug.Log("🐟 You caught the fish with skill!");
+
+        if (fishManager != null)
+            fishManager.ConfirmSpawn();
+
+        ReturnHook();
+    }
 	
-	void OnFishCaught()
+	void OnFishFailed()
 	{
-		Debug.Log("🐟 You caught the fish with skill!");
-		// Reward the player, give XP, inventory, etc.
+		Debug.Log("🐟 The fish got away...");
+		ReturnHook();
 	}
 	
+
+    void ReturnHook()
+    {
+        transform.position = startPos;
+        Debug.Log("🎣 Hook returns to position.");
+    }
 }

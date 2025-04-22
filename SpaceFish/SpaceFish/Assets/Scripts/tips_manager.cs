@@ -52,13 +52,13 @@ public class Tips_Manager : MonoBehaviour
         {
             if (rodMessage01 && !rodMessageShown)
             {
-                messageText.text = "Message 01: Rod picked up!";
+                messageText.text = "You can Pickup items pressing P !";
                 messageBox.SetActive(true);
                 rodMessageShown = true;
             }
             else if (boatMessage && !boatMessageShown)
             {
-                messageText.text = "Message 02: Boat equipped!";
+                messageText.text = "You can equip the boat by pressing P !";
                 messageBox.SetActive(true);
                 boatMessageShown = true;
             }

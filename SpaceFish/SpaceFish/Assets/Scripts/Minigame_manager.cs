@@ -14,8 +14,9 @@ public class MinigameManager : MonoBehaviour
 
     private bool isPlaying = false;
     private int currentHits = 0;
-    private Action onWinCallback;
-
+	private Action onWinCallback;
+	private Action onFailCallback; 
+	
 	private float currentAngle = 0f;
 	public float ballRadius = 100f; // Distance from center (in UI units)
 	
@@ -68,19 +69,26 @@ public class MinigameManager : MonoBehaviour
 			{
 				WinMinigame();
 			}
+			else if (!IsBallInHitZone()) // Optional: fail on miss
+			{
+				FailMinigame(); // 👈 Add this
+			}
 		}
+		
 		
 	}
 	
 	
 
-    public void StartMinigame(Action onWin)
-    {
-        onWinCallback = onWin;
-        currentHits = 0;
-        isPlaying = true;
-        minigameUI.SetActive(true);
-    }
+	public void StartMinigame(Action onWin, Action onFail = null)
+	{
+		onWinCallback = onWin;
+		onFailCallback = onFail;
+		currentHits = 0;
+		isPlaying = true;
+		minigameUI.SetActive(true);
+	}
+	
 
     public void StopMinigame()
     {
@@ -94,6 +102,14 @@ public class MinigameManager : MonoBehaviour
         Debug.Log("🎉 Minigame WON!");
         onWinCallback?.Invoke();
     }
+	
+	private void FailMinigame()
+	{
+		StopMinigame();
+		Debug.Log("💔 Minigame FAILED.");
+		onFailCallback?.Invoke();
+	}
+	
 
     private float GetAngle(RectTransform target)
     {
