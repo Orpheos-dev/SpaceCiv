@@ -11,7 +11,8 @@ public class Rod_Hook : MonoBehaviour
     private Coroutine fishRoutine;
 
     public FishManager fishManager;
-    public MinigameManager MinigameManager;
+    public MinigameManager minigameManager;
+    public RodCasting rodCasting; // ⬅️ ADD THIS (Reference to RodCasting!)
 
     public void StartBobbing()
     {
@@ -60,7 +61,7 @@ public class Rod_Hook : MonoBehaviour
                 {
                     Debug.Log("🎣 A fish was successfully 'hooked', starting minigame.");
                     StopBobbing();
-                    MinigameManager.StartMinigame(OnFishCaught, OnFishFailed);
+                    minigameManager.StartMinigame(OnFishCaught, OnFishFailed);
                     yield break;
                 }
             }
@@ -74,19 +75,25 @@ public class Rod_Hook : MonoBehaviour
         if (fishManager != null)
             fishManager.ConfirmSpawn();
 
-        ReturnHook();
+        ReturnHookProperly();
     }
 	
-	void OnFishFailed()
-	{
-		Debug.Log("🐟 The fish got away...");
-		ReturnHook();
-	}
-	
-
-    void ReturnHook()
+    void OnFishFailed()
     {
-        transform.position = startPos;
-        Debug.Log("🎣 Hook returns to position.");
+        Debug.Log("🐟 The fish got away...");
+        ReturnHookProperly();
+    }
+	
+    void ReturnHookProperly()
+    {
+        if (rodCasting != null)
+        {
+            rodCasting.TriggerReturn(); // ⬅️ Call RodCasting to do the proper smooth return!
+        }
+        else
+        {
+            Debug.LogWarning("RodCasting reference missing, hook instantly reset.");
+            transform.position = startPos; // Fallback
+        }
     }
 }
