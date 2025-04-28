@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI; // 👈 Add this for Button
 
 public class InventoryManager : MonoBehaviour
 {
@@ -9,29 +10,14 @@ public class InventoryManager : MonoBehaviour
 
     [Header("UI Sprites")]
     public Sprite rodIconSprite; // Assign this in the Inspector
-	
-	[Header("Inventory Collected Items")]
-	public bool haveRod = false;
-	
-	[Header("UI References")]
-    public GameObject buttonToShowOnRodPickup; // Drag the UI button in Inspecto
-	
-	public void CollectRod()
-	{
-		haveRod = true;
-		Debug.Log("✅ Rod collected and added to inventory!");
-		
-		// Show the button when rod is picked up
-        if (buttonToShowOnRodPickup != null)
-        {
-            buttonToShowOnRodPickup.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("No UI button assigned for rod pickup.");
-        }
-	}
-	
+
+    [Header("Inventory Collected Items")]
+    public bool haveRod = false;
+    public bool haveBoat = false;
+
+    [Header("UI References")]
+    public GameObject buttonToShowOnRodPickup; // Drag the UI button in Inspector
+    public Button equipRodButton; // 👈 New: Button reference for equipping rod
 
     private void Awake()
     {
@@ -46,19 +32,36 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Start()
     {
-        // Press R to equip/unequip the rod
+        if (equipRodButton != null)
+        {
+            equipRodButton.onClick.AddListener(ToggleRodEquip);
+        }
+        else
+        {
+            Debug.LogWarning("Equip Rod Button is not assigned!");
+        }
+    }
+
+    private void Update()
+    {
+        // OPTIONAL: You can REMOVE the R key detection if you want full button control
         if (Input.GetKeyDown(KeyCode.R))
         {
-            if (!rodEquipped)
-            {
-                EquipRod();
-            }
-            else
-            {
-                UnequipRod();
-            }
+            ToggleRodEquip();
+        }
+    }
+
+    private void ToggleRodEquip()
+    {
+        if (!rodEquipped)
+        {
+            EquipRod();
+        }
+        else
+        {
+            UnequipRod();
         }
     }
 
@@ -79,5 +82,27 @@ public class InventoryManager : MonoBehaviour
     public bool IsRodEquipped()
     {
         return rodEquipped;
+    }
+
+    public void CollectBoat()
+    {
+        haveBoat = true;
+        Debug.Log("✅ Boat collected and added to inventory!");
+    }
+
+    public void CollectRod()
+    {
+        haveRod = true;
+        Debug.Log("✅ Rod collected and added to inventory!");
+
+        // Show the button when rod is picked up
+        if (buttonToShowOnRodPickup != null)
+        {
+            buttonToShowOnRodPickup.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("No UI button assigned for rod pickup.");
+        }
     }
 }

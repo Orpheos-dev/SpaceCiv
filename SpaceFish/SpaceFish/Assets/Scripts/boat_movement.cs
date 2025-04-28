@@ -11,9 +11,7 @@ public class Boat_Movement : MonoBehaviour
     public GameObject player;                 // Assign Player
     public PlayerMovement playerMovement;     // Assign PlayerMovement script
     public CharacterController characterController; // Assign CharacterController
-    public KeyCode enterExitKey = KeyCode.T;
-
-    public Transform originalParent;     
+    public Transform originalParent;          // Assign original parent (like the main player container)
 
     private bool isPlayerInBoat = false;
     private Rigidbody rb;
@@ -26,31 +24,16 @@ public class Boat_Movement : MonoBehaviour
             rb = gameObject.AddComponent<Rigidbody>();
         }
 
-		rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        rb.constraints = RigidbodyConstraints.FreezePositionX | 
+                         RigidbodyConstraints.FreezePositionY | 
+                         RigidbodyConstraints.FreezeRotationX | 
+                         RigidbodyConstraints.FreezeRotationZ;
 
         Debug.Log("Boat initialized with Rigidbody");
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(enterExitKey))
-        {
-            Debug.Log("T pressed");
-            float distance = Vector3.Distance(player.transform.position, transform.position);
-            Debug.Log("Distance from boat: " + distance);
-
-            if (!isPlayerInBoat && distance < 10f)
-            {
-                Debug.Log("Attempting to enter boat...");
-                EnterBoat();
-            }
-            else if (isPlayerInBoat)
-            {
-                Debug.Log("Attempting to exit boat...");
-                ExitBoat();
-            }
-        }
-
         if (isPlayerInBoat)
         {
             HandleMovement();
@@ -58,36 +41,32 @@ public class Boat_Movement : MonoBehaviour
         }
     }
 
-	void EnterBoat()
-	{
-		isPlayerInBoat = true;
-		Debug.Log("Player is entering the boat.");
-	
-		// Disable controls
-		if (playerMovement != null) playerMovement.enabled = false;
-		if (characterController != null) characterController.enabled = false;
-	
-		// Parent and correct position
-		player.transform.SetParent(boatSeat, worldPositionStays: false);
-	
-		// Offset player height to sit in the seat (adjust Y as needed)
-		player.transform.localPosition = new Vector3(0f, -1f, 0f); // Lower Y = closer to the boat
-		player.transform.localRotation = Quaternion.identity;
-	
-		Debug.Log("Player seated on boat");
-	}
-	
-	
-	
-    void ExitBoat()
+    public void EnterBoat()
+    {
+        isPlayerInBoat = true;
+        Debug.Log("Player is entering the boat.");
+
+        // Disable player controls
+        if (playerMovement != null) playerMovement.enabled = false;
+        if (characterController != null) characterController.enabled = false;
+
+        // Parent player to boat seat
+        player.transform.SetParent(boatSeat, worldPositionStays: false);
+        player.transform.localPosition = new Vector3(0f, -1f, 0f); // Adjust Y to sit position
+        player.transform.localRotation = Quaternion.identity;
+
+        Debug.Log("Player seated on boat");
+    }
+
+    public void ExitBoat()
     {
         isPlayerInBoat = false;
         Debug.Log("Player is exiting the boat.");
 
-        // Unparent the player and set back to the original parent
+        // Unparent player
         if (originalParent != null)
         {
-            player.transform.SetParent(originalParent);  // Set the player's parent back to the original parent
+            player.transform.SetParent(originalParent);
             Debug.Log("Player is now parented back to: " + originalParent.name);
         }
         else
@@ -95,11 +74,11 @@ public class Boat_Movement : MonoBehaviour
             Debug.LogWarning("Original parent is not assigned!");
         }
 
-        // Set player's position beside the boat
+        // Place player beside boat
         player.transform.position = transform.position + transform.right * 2f;
         player.transform.rotation = Quaternion.identity;
 
-        // Enable player movement
+        // Re-enable movement
         if (playerMovement != null)
         {
             playerMovement.enabled = true;
@@ -111,6 +90,11 @@ public class Boat_Movement : MonoBehaviour
             characterController.enabled = true;
             Debug.Log("Character controller re-enabled");
         }
+    }
+
+    public bool IsPlayerInBoat()
+    {
+        return isPlayerInBoat;
     }
 
     void HandleMovement()

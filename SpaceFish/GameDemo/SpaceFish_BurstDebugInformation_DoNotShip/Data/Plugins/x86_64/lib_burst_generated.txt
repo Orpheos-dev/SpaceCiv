@@ -10,6 +10,7 @@ Library: S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data
 --linker-options=PdbAltPath="SpaceFish_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\Burst
+--debug=Full
 --key-folder=S:/Program Files/Unity/Hub/Editor/6000.0.37f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Library\Burst
 --output=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
@@ -33,6 +34,7 @@ Library: S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data
 --linker-options=PdbAltPath="SpaceFish_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\Burst
+--debug=Full
 --key-folder=S:/Program Files/Unity/Hub/Editor/6000.0.37f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Library\Burst
 --output=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
@@ -58,6 +60,7 @@ Library: S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data
 --linker-options=PdbAltPath="SpaceFish_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\Burst
+--debug=Full
 --key-folder=S:/Program Files/Unity/Hub/Editor/6000.0.37f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Library\Burst
 --output=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
@@ -78,6 +81,7 @@ Library: S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data
 --linker-options=PdbAltPath="SpaceFish_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\Burst
+--debug=Full
 --key-folder=S:/Program Files/Unity/Hub/Editor/6000.0.37f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Library\Burst
 --output=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
@@ -96,6 +100,7 @@ Library: S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data
 --linker-options=PdbAltPath="SpaceFish_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\Burst
+--debug=Full
 --key-folder=S:/Program Files/Unity/Hub/Editor/6000.0.37f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Library\Burst
 --output=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated
@@ -212,6 +217,7 @@ Library: S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data
 --linker-options=PdbAltPath="SpaceFish_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\Burst
+--debug=Full
 --key-folder=S:/Program Files/Unity/Hub/Editor/6000.0.37f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
 --decode-folder=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Library\Burst
 --output=S:\Projects\GitClone\SpaceCiv\SpaceFish\SpaceFish\Temp\BurstOutput\Data\Plugins\x86_64\lib_burst_generated

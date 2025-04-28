@@ -2,34 +2,41 @@ using UnityEngine;
 
 public class FishManager : MonoBehaviour
 {
-    public GameObject fishPrefab;  // assign in Inspector
+    public GameObject fishPrefab;
     [Range(0f, 1f)] public float fishAppearChance = 0.5f;
+    [Range(0f, 1f)] public float spawnChance = 0.4f;
 
-    [Range(0f, 1f)]
-    public float spawnChance = 0.4f;
+    private Vector3 pendingSpawnPosition;
+    private bool hasPendingFish = false;
 
     public bool TrySpawnFish(Vector3 position)
     {
         float chance = Random.value;
         if (chance < spawnChance)
         {
-            if (fishPrefab != null)
-            {
-                // Instantiate the fish and make sure it's active
-                GameObject fish = Instantiate(fishPrefab, position, Quaternion.identity);
-                fish.SetActive(true); // Make sure fish is visible and active
-                Destroy(fish, 3f); // Destroy after 3 seconds
-                return true;
-            }
+            pendingSpawnPosition = position;
+            hasPendingFish = true;
+
+            // ⬇️ Don't show the fish yet
+            // GameObject fish = Instantiate(fishPrefab, position, Quaternion.identity);
+            // fish.SetActive(true);
+            // Destroy(fish, 3f);
+
+            return true;
         }
 
         return false;
     }
 
-    private void SpawnFishAt(Vector3 position)
+    public void ConfirmSpawn()
     {
-        GameObject fish = Instantiate(fishPrefab, position, Quaternion.identity);
-        fish.SetActive(true); // In case prefab is initially disabled
-        Destroy(fish, 3f);    // Destroy after 3 seconds
+        if (hasPendingFish && fishPrefab != null)
+        {
+            GameObject fish = Instantiate(fishPrefab, pendingSpawnPosition, Quaternion.identity);
+            fish.SetActive(true);
+            Destroy(fish, 3f);
+        }
+
+        hasPendingFish = false;
     }
 }

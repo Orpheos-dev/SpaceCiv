@@ -3,24 +3,32 @@ using System.Collections;
 
 public class RodCasting : MonoBehaviour
 {
+    [Header("Casting References")]
     public Transform rod;
     public Transform hook;
     public Transform previewCircle;
-    public float castDistance = 5f;
     public float castSpeed = 5f;
+    public float previewFollowSpeed = 10f; // 🌟 New: how fast the preview moves
+
+    [Header("Casting Settings")]
+    public LayerMask waterLayer; // 🌊 Set to Water layer
+    public float maxCastDistance = 5f;
+
+    [Header("Effects")]
+    public GameObject splashEffect;
+    public FishManager fishManager;
 
     private bool isCastingMode = false;
     private bool hasCast = false;
     private bool isReturning = false;
-    private Vector3 castDirection = Vector3.zero;
     private Vector3 originalHookPosition;
-	
-    public GameObject splashEffect;
-    public FishManager fishManager;
+    private Vector3 targetCastPoint;
+    private Camera cam;
 
     void Start()
     {
         originalHookPosition = hook.localPosition;
+        cam = Camera.main;
     }
 
     void Update()
@@ -38,47 +46,45 @@ public class RodCasting : MonoBehaviour
             {
                 isCastingMode = true;
                 previewCircle.gameObject.SetActive(true);
-                castDirection = Vector3.zero;
-                UIManager.Instance.ShowCastingUI(true); // 🔥 Show casting UI
+                UIManager.Instance.ShowCastingUI(true);
                 Debug.Log("Casting mode activated");
             }
         }
 
         if (isCastingMode && !hasCast)
         {
-            if (castDirection == Vector3.zero)
+            UpdatePreviewCircle();
+
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
             {
-                if (Input.GetKeyDown(KeyCode.UpArrow)) castDirection = Vector3.forward;
-                if (Input.GetKeyDown(KeyCode.DownArrow)) castDirection = Vector3.back;
-                if (Input.GetKeyDown(KeyCode.LeftArrow)) castDirection = Vector3.left;
-                if (Input.GetKeyDown(KeyCode.RightArrow)) castDirection = Vector3.right;
-
-                if (castDirection != Vector3.zero)
-                {
-                    Vector3 localDir = rod.InverseTransformDirection(castDirection.normalized);
-                    Vector3 targetLocalPosition = localDir * castDistance;
-                    targetLocalPosition.y = 0f;
-
-                    Vector3 worldTarget = rod.position + castDirection.normalized * castDistance;
-                    worldTarget.y = 0f;
-                    previewCircle.position = worldTarget;
-
-                    Debug.Log("Preview updated at local: " + targetLocalPosition);
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space) && castDirection != Vector3.zero)
-            {
-                Vector3 worldTarget = rod.position + castDirection.normalized * castDistance;
-                worldTarget.y = 0f;
-
-                StartCoroutine(CastHook(worldTarget));
+                StartCoroutine(CastHook(targetCastPoint));
                 isCastingMode = false;
                 hasCast = true;
                 previewCircle.gameObject.SetActive(false);
-                UIManager.Instance.ShowCastingUI(false); // ❌ Hide casting UI
-                Debug.Log("Casting toward: " + worldTarget);
+                UIManager.Instance.ShowCastingUI(false);
+                Debug.Log("Casting toward: " + targetCastPoint);
             }
+        }
+    }
+
+    void UpdatePreviewCircle()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 100f, waterLayer))
+        {
+            Vector3 hitPoint = hitInfo.point;
+
+            // Clamp the distance
+            Vector3 dir = (hitPoint - rod.position);
+            dir.y = 0f;
+            if (dir.magnitude > maxCastDistance)
+                dir = dir.normalized * maxCastDistance;
+
+            targetCastPoint = rod.position + dir;
+            targetCastPoint.y = hitPoint.y; // Keep water height
+
+            // 🧡 Smoothly move preview circle toward the target
+            previewCircle.position = Vector3.Lerp(previewCircle.position, targetCastPoint, Time.deltaTime * previewFollowSpeed);
         }
     }
 
@@ -103,7 +109,6 @@ public class RodCasting : MonoBehaviour
         }
 
         hook.GetComponent<Rod_Hook>()?.StartBobbing();
-
         Debug.Log("Hook landed at: " + target);
     }
 
@@ -128,4 +133,14 @@ public class RodCasting : MonoBehaviour
         isReturning = false;
         Debug.Log("Hook returned to original position");
     }
+	
+	public void TriggerReturn()
+	{
+		if (!isReturning && hasCast)
+		{
+			StartCoroutine(ReturnHook());
+			Debug.Log("Triggered ReturnHook from Rod_Hook.");
+		}
+	}
+	
 }

@@ -13,10 +13,14 @@ public class UIManager : MonoBehaviour
     public Camera mainCamera;
 
     [Header("Fishing UI")]
-    public RectTransform fishingIndicatorUI; // 👈 assign the indicator UI here (in canvas)
+    public RectTransform fishingIndicatorUI;
+
+    [Header("Casting UI")]
+    public GameObject castingUI;
 	
-	[Header("Casting UI")]
-	public GameObject castingUI; // Assign in inspector
+	[Header("Items UI")]
+	public GameObject itemsCanvas; // 🎯 Drag your items canvas here
+	public GameObject itemsButton; // 🎯 Drag the button (icon) here
 
     private void Awake()
     {
@@ -38,6 +42,11 @@ public class UIManager : MonoBehaviour
     {
         UpdateEquippedItem(null);
         ShowFishingIndicator(false);
+
+        if (itemsCanvas != null)
+        {
+            itemsCanvas.SetActive(false); // 💤 Hide items canvas by default
+        }
     }
 
     public void UpdateEquippedItem(Sprite itemSprite)
@@ -68,16 +77,39 @@ public class UIManager : MonoBehaviour
     {
         if (fishingIndicatorUI != null && mainCamera != null)
         {
-            Vector3 screenPos = mainCamera.WorldToScreenPoint(worldPosition + Vector3.up * 0.5f); // slight offset
+            Vector3 screenPos = mainCamera.WorldToScreenPoint(worldPosition + Vector3.up * 0.5f);
             fishingIndicatorUI.position = screenPos;
         }
     }
+
+    public void ShowCastingUI(bool show)
+    {
+        if (castingUI != null)
+        {
+            castingUI.SetActive(show);
+        }
+    }
 	
-	public void ShowCastingUI(bool show)
+	// Call this when the player clicks the Items button (to open items)
+	public void OnItemsButtonClicked()
 	{
-		if (castingUI != null)
-		{
-			castingUI.SetActive(show);
-		}
+		SetItemsCanvasVisible(true);
 	}
+	
+	// Call this when the player clicks the "Back" button inside the Items canvas
+	public void OnItemsBackButtonClicked()
+	{
+		SetItemsCanvasVisible(false);
+	}
+	
+	// This actually handles showing/hiding
+	private void SetItemsCanvasVisible(bool show)
+	{
+		if (itemsCanvas != null)
+			itemsCanvas.SetActive(show);
+	
+		if (itemsButton != null)
+			itemsButton.SetActive(!show);
+	}
+	
 }
